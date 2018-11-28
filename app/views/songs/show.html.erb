@@ -1,0 +1,25 @@
+<h1><%= @song.title %></h1>
+
+<%= render 'follow_UI', song: @song %>
+<div>
+    <% if user_editable? %><!-- ['admin', 'editor'].include? current_user.profile.role 와 같은 말 -->
+        <%= link_to fa_icon('edit 2x'), edit_song_path(@song) %> <!-- icon 크기 4x 4배 -->
+        <%= link_to fa_icon('trash 2x'), song_path(@song), method: :delete, data: { confirm: '삭제하시겠습니까?'} %>
+    <% end %>
+</div>
+<hr />
+<ul>
+    <% @song.artists.each do |artist| %>
+    <li>
+        <%= image_tag artist.image.url, style: "width: 50px" if artist.image? %>
+        <%= link_to artist.name, artist_path(artist) %>
+    </li>
+    <% end %>
+</ul>
+
+<%= image_tag @song.cover.url, class: 'image-center' if @song.cover? %>
+<%#= image_tag @song.cover.thumb.url if @song.cover? %>
+<%= @song.lyric.html_safe %>
+
+<%= render 'comments/form', commentable: @song %>
+<%= render 'comments/index', commentable: @song %>

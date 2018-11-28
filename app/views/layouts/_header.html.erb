@@ -1,0 +1,39 @@
+<!-- 조립되듯 partial로 쓰기때문에 파일 이름 앞에 _ 붙임-->
+
+  <header class="navbar navbar-dark bg-dark navbar-expand-lg nav-fixed-top"> <!-- fixed-top에서 nav-fixed-top 추가 -->
+    <div class="container">
+      <%= link_to "RApp", root_path, id: 'logo', class: 'navbar-brand'%>
+      <!-- Toggle Button -->
+      <button class="navbar-toggler"
+              type = "button"
+              data-toggle = "collapse"
+              data-target = "#navbarNav"
+              aria-controls = "navbarNav"
+              aria-expanded = "false"
+              aria-label = "Toogle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <!-- nav bar -->
+      <nav class="collapse navbar-collapse" id="navbarNav">  <!--collapse navbar-collapse-->
+        <ul class="navbar-nav ml-auto"> <!-- ul.navbar-nav.ml-auto>li.nav-item*3 -->
+          <li class="nav-item"><%= link_to 'Home', root_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'Jukebox', jukebox_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'Articles', articles_path, class: 'nav-link' %></li>
+          <% if user_signed_in? %> <!-- 로그인했을 때만 마이페이지 보이게 -->
+          <li class="nav-item"><%= link_to 'My page', my_profile_path, class: 'nav-link' %></li>
+          <% end %>
+          <li class="nav-item">
+            <% if !user_signed_in? %>
+            <%= link_to 'Log in ', new_user_session_path, class: 'nav-link' %>
+            <% else %> <!-- a태그는 대부분 get -->
+            <%= link_to 'Log out', destroy_user_session_path,
+                                  method: :delete, 
+                                  data: { confirm: '로그아웃 하시겠습니까?'},
+                                  class: 'nav-link' %>
+            <% end %>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>

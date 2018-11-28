@@ -1,0 +1,202 @@
+$rails g devise:install : devise 젬에 대한 정보 보기
+$rails g devise User : User 모델 만들기(devise 젬 이용해서)
+$rails g model Profile name mobile address birth:date user:belongs_to
+  : Profile 모델 만들기(User에 속한)
+$rails db:migrate
+
+# 유저 만들어 보기
+$rails c
+$u = User.new
+$u.email = 'dd@dd.net'
+$u.password = "123123"
+$u.save
+
+$p = Profile.new
+$p.user = u
+$p.name = '이슬'
+$p.mobile="1212"
+$p.address="Seoul"
+$p.birth = Date.new(1995,12,29)
+$p.save
+
+$u.profile
+
+
+# save 실패했을 때
+$u.errors.full_messages : 무엇이 에러가 났는 지 알려줌
+$p.valid? : 이거 유효해? 저장할 수 있어? save해서 에러나는 걸로도 확인 가능하지만 이걸 사용해서도 확인 가능
+debugger 치면 debugging 할 수 있음
+
+# 주소 뒤에 /rails/info/routes 치면
+     routing이 나옴
+
+$rails g devise:views : devise와 관련된 views 다 나옴
+
+# devise views bootstrap
+$rails generate devise:views:bootstrap_templates
+
+# bootstrap-form_for gem
+
+#form 시리즈
+    - form_for : 뒤에 특정한 객체에 넣어줌
+    - form_tag : 완전히 input 태그를 넣고 싶을 때 (뒤에 url이 옴)
+    - form_with : version 5 이상에서 나옴
+    
+# Article 모델 만들기
+    rails g model Article title content:text user:belongs_to
+    
+    
+# form_for // each do 문의 차이점
+    form_for은 <%= 으로, each do는 <% 으로 시작
+    
+# tinymce / wysiwyg  비슷함 : article content란을 이쁘게 꾸며줌
+
+[3] pry(main)> 100.times do |i|
+[3] pry(main)>   Article.create title:"#{i}번 글",content: "#{i}*#{i} = #{i*i}", user:User.find(1)
+[3] pry(main)> end
+
+reload! : pry 환경에서 수정후 로드
+
+
+
+# 좋아요 기능 만들기
+$ rails g model like user:belongs_to article:belongs_to
+
+[24] pry(main)> a = Article.last
+[17] pry(main)> Like.create article: a, user: User.second
+[24] pry(main)> a.likes
+
+[25] pry(main)> a.likes.each do |like|
+[25] pry(main)>   puts like.user
+[26] pry(main)> end
+
+
+[6] pry(main)> a.l_users.each do |u|
+[6] pry(main)*   puts u.profile.name
+[6] pry(main)> end
+
+$ rails g controller likes
+
+
+# Song model 만들기
+rails g model Song title lyric:text cover
+
+#imagemagick 설치
+$sudo yum install ImageMagick : aws c9 사용
+$sudo apt-get install imagemagick : ubuntu 사용
+
+$ sudo apt update
+$ sudo apt build-dep imagemagick
+$ wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+$ tar xf ImageMagick.tar.gz
+$ cd ImageMagick-7*
+
+
+=> $ sudo apt update
+$sudo apt-get install imagemagick : ubuntu 사용
+
+
+# uploader 콘트롤러 만들기
+ -> 에러 날경우 bin/spring stop 치기
+ 
+# imagemagick은 minimagick 스위치 느낌
+uploaders/cover_uploader.rb에서
+include CarrierWave::MiniMagick # on/off의 느낌
+
+#Artist model 만들기
+seullee:~/workspace $ rails g model Artist name nationality image
+seullee:~/workspace $ rails g controller Artists new show index edit
+
+# uploader을 cover와 image로 따로 씀
+seullee:~/workspace $ rails g uploader profile_img
+
+# Participate model 생성
+seullee:~/workspace $ rails g model Participate artist:belongs_to song:belongs_to
+
+$ a = Artist.new name: '마마무', nationality: 'KR'
+$ a = Artist.new name: '로꼬', nationality: 'KR'
+$ s = Song.new
+$ s.title = '주지마'
+$ s.lyric = 'textdddddddddddd'
+$ s.save
+$ p = Participate.new artist: a1, song: s
+$ p.save
+$ p = Participate.create artist: a2, song: s
+
+
+# profile 에 role 주기
+gem rolify 추가 => 좀 어려움 
+# 수동
+seullee:~/workspace $ rails g migration add_role_to_profiles role:string >> profile이라는 model table에 role 이라는 column추가
+
+# seed 만들기
+$ rails db:seed
+
+
+# Participate - song과 artist의 M:N 관계 만들기
+
+## css - grid
+기본으로 12칸이라고 지정
+
+# jukebox helper
+
+$ rails g controller Participates new edit
+
+# Comment
+$ gem 'acts_as_commentable'
+$rails g comment
+
+mode table 없애기 (how to drop table)
+$ rails g migration drop_comments_table
+def up 
+    drop_table :comments
+end
+
+def down
+    raise ActiveRecord::irreversibleMigration
+end
+
+$ rails db:rollback : db:migrate를 하기 바로 전으로 돌아감
+$ rails g controller Comments
+
+ == redirect_to song_url(@song.id) 
+== redirect_to song_url(@song) 
+== redirect_to @song
+
+# follower
+$ rails g acts_as_follower
+$ rails g controller follows
+
+
+
+
+## github
+
+branch 생성
+
+Create the branch on your local machine and switch in this branch :
+$ git checkout -b [name_of_your_new_branch]
+
+Change working branch :
+$ git checkout [name_of_your_new_branch]
+
+Push the branch on github :
+$ git push origin [name_of_your_new_branch]
+
+Add a new remote for your branch :
+$ git remote add [name_of_your_remote] [name_of_your_new_branch]
+
+Update your branch when the original branch from official repository has been updated :
+$ git fetch [name_of_your_remote]
+
+Then you need to apply to merge changes, if your branch is derivated from develop you need to do :
+$ git merge [name_of_your_remote]/develop
+
+Delete a branch on your local filesystem :
+$ git branch -d [name_of_your_new_branch]
+
+To force the deletion of local branch on your filesystem :
+$ git branch -D [name_of_your_new_branch]
+
+Delete the branch on github :
+$ git push origin :[name_of_your_new_branch]

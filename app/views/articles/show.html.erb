@@ -1,0 +1,10 @@
+<h1><%= @article.title %></h1>
+
+<%= render 'userUI' %>
+<%= render 'like' %>
+
+<hr />
+<p><%= @article.content.html_safe %></p>  <!-- html 에 글로 사진이 안나오는 경우 방지-->
+
+<%= render 'comments/form', commentable: @article %>
+<%= render 'comments/index', commentable: @article %>

@@ -1,0 +1,74 @@
+@import "bootstrap";
+//@import "devise_bootstrap_views"; /*devise view */
+@import "rails_bootstrap_forms";
+@import "font-awesome";
+
+/* universal */
+body {
+    padding-gop: 80px;
+}
+
+/* typograpyh */
+h1, h2, h3, h4, h5, h6 {
+    line-heigth: 1; //줄 사이 간격 1
+}
+
+/* Header */
+#logo {
+    text-transform: uppercase;  //대문자
+    letter-spacing: -1px; 
+    font-size: 1.7em;
+    font-weight: bold;
+    &:hover{
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+}
+
+/* 내가 추가한 헤더 */
+header{
+    .collapse > li {
+        float: right !important;
+    }
+}
+
+/* footer */
+footer {
+    margin-top: 45px; // 밑으로 좀 내려오게
+    a{
+        color : #555;
+        &:hober{
+            color:#222;
+        }
+    }
+    
+    small {
+        float: left;
+    }
+    
+    ul {
+        float: right;
+        list-style: none;
+        li{
+            float: left;
+            margin-left: 15px;
+        }
+    }
+}
+
+// songs-artists
+.image-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+}
+
+li.element-box {
+    margin: 10;
+}
+
+
+div.comment-card {
+    margin: 10px;
+}

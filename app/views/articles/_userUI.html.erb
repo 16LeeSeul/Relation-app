@@ -1,0 +1,9 @@
+<%= image_tag gravatar_url(@article.user.email,45), alt: @article.user.profile.name %>
+<strong><%= @article.user.profile.name %></strong>
+
+<div>
+    <% if @article.user == current_user %>
+        <%= link_to fa_icon('edit 2x'), edit_article_path(@article) %> <!-- icon 크기 4x 4배 -->
+        <%= link_to fa_icon('trash 2x'), article_path(@article), method: :delete, data: { confirm: '삭제하시겠습니까?'} %> <!-- a tag : get요청을 기본으로 받기 때문에 method 명시 -->
+     <% end %>
+</div>
